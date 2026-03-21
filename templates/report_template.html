@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="aa">
+<head>
+    <meta charset="UTF-8">
+    <title>测试报告 - {{ testcase.name }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #333; }
+        .status { font-weight: bold; }
+        .passed { color: green; }
+        .failed { color: red; }
+        .log { background-color: #f5f5f5; padding: 10px; border: 1px solid #ccc; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <h1>测试报告</h1>
+    <p><strong>用例名称：</strong> {{ testcase.name }}</p>
+    <p><strong>执行时间：</strong> {{ execution.started_at }} - {{ execution.finished_at }}</p>
+    <p><strong>状态：</strong>
+        <span class="status {{ 'passed' if execution.status == 'passed' else 'failed' }}">
+            {{ '通过' if execution.status == 'passed' else '失败' }}
+        </span>
+    </p>
+    <p><strong>结果：</strong> {{ execution.result }}</p>
+    <h2>日志</h2>
+    <div class="log">{{ log }}</div>
+</body>
+</html>
