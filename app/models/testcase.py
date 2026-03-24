@@ -25,13 +25,13 @@ class TestCase(db.Model):
     test_phase_id = db.Column(db.Integer, db.ForeignKey('test_phases.id'), nullable=True)
     test_type_id = db.Column(db.Integer, db.ForeignKey('test_types.id'), nullable=False)
     mark_id = db.Column(db.Integer, db.ForeignKey('marks.id'), nullable=True)
-    latest_result_id = db.Column(db.Integer, db.ForeignKey('execution_results.id'), nullable=True)  # 最新执行结果（冗余）
+    latest_result_id = db.Column(db.Integer, db.ForeignKey('test_reports.id'), nullable=True)  # 最新执行结果（冗余）
     is_deleted = db.Column(db.Boolean, default=False)   # 废除标志
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     test_script = db.Column(db.Text, default='')  # pytest测试脚本内容
 
     # 关系
-    latest_result = db.relationship('ExecutionResult', foreign_keys=[latest_result_id])
+    latest_result = db.relationship('ExecutionResult', foreign_keys=[latest_result_id], backref='latest_testcase')
     executions = db.relationship('ExecutionResult', backref='testcase', lazy=True, foreign_keys='ExecutionResult.testcase_id')
     files = db.relationship('File', secondary='testcase_files', back_populates='testcases')

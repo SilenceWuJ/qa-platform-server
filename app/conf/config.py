@@ -22,7 +22,7 @@ import os
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'dev-key-please-change'
     # MySQL 配置
-    DB_USER = 'qa_user'  # 替换为实际用户名
+    DB_USER = 'root'  # 替换为实际用户名
     DB_PASSWORD = '123456'  # 替换为实际密码
     DB_HOST = 'localhost'  # 或 IP 地址
     DB_PORT = '3306'

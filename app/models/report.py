@@ -15,6 +15,6 @@ class Report(db.Model):
     __tablename__ = 'reports'
     html_content = db.Column(db.Text, default='')
     id = db.Column(db.Integer, primary_key=True)
-    execution_id = db.Column(db.Integer, db.ForeignKey('execution_results.id'), unique=True, nullable=False)
+    execution_id = db.Column(db.Integer, db.ForeignKey('test_reports.id'), unique=True, nullable=False)
     content = db.Column(db.Text, default='')
     created_at = db.Column(db.DateTime, default=datetime.utcnow)

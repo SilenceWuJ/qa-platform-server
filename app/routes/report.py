@@ -25,6 +25,8 @@ def list_reports():
     return jsonify([{
         'id': r.id,
         'execution_id': r.execution_id,
+        'html_content': r.html_content if r.html_content else '',
+        'content': r.content,
         'created_at': r.created_at.isoformat()
     } for r in reports])
 
@@ -34,25 +36,13 @@ def get_report(report_id):
     return jsonify({
         'id': report.id,
         'execution_id': report.execution_id,
+        'html_content': report.html_content if report.html_content else '',
         'content': report.content,
         'created_at': report.created_at.isoformat()
     })
 
 from flask import send_file, render_template_string
 from io import BytesIO
-
-@report_bp.route('/<int:report_id>/export', methods=['GET'],strict_slashes=False)
-def download_report_html(report_id):
-    report = Report.query.get_or_404(report_id)
-    if report.html_content:
-        # 直接返回HTML内容
-        return report.html_content, 200, {'Content-Type': 'text/html', 'Content-Disposition': f'attachment; filename=report_{report_id}.html'}
-    else:
-        # 如果没有html_content，则从content生成一个简单的HTML
-        html = f"<html><body><h1>测试报告</h1><pre>{report.content}</pre></body></html>"
-        return html, 200, {'Content-Type': 'text/html', 'Content-Disposition': f'attachment; filename=report_{report_id}.html'}
-
-
 
 def generate_html_report(testcase, execution):
     """生成HTML报告内容"""

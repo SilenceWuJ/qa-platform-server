@@ -12,7 +12,7 @@ from .. import db
 from datetime import datetime
 
 class ExecutionResult(db.Model):
-    __tablename__ = 'execution_results'
+    __tablename__ = 'test_reports'
     id = db.Column(db.Integer, primary_key=True)
     testcase_id = db.Column(db.Integer, db.ForeignKey('testcases.id'), nullable=False)
     status = db.Column(db.String(20), default='pending')   # pending, running, passed, failed
@@ -22,4 +22,5 @@ class ExecutionResult(db.Model):
     log = db.Column(db.Text, default='')
 
     # 关系
+    # testcase 关系已通过 TestCase.executions 的 backref='testcase' 自动创建
     report = db.relationship('Report', backref='execution', uselist=False)
